@@ -2,6 +2,11 @@
 {
     public class PersonalAccount : BankAccount
     {
-        public decimal OverdraftLimit { get; set; }
+        private readonly decimal _overdraftLimit = 1000.00m;
+
+        public override bool CanWithdraw(decimal amount)
+        {
+            return Balance - amount >= -_overdraftLimit;
+        }
     }
 }

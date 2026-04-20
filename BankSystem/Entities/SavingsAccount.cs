@@ -4,9 +4,6 @@
     {
         private readonly decimal _minimumBalance = 500.00m;
 
-        public SavingsAccount(string accountOwner) : base(accountOwner)
-        {
-        }
         public override bool CanWithdraw(decimal amount)
         {
             return Balance - amount >= _minimumBalance;
