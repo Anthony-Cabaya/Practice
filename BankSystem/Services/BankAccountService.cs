@@ -4,7 +4,7 @@ namespace BankSystem.Services
 {
     public class BankAccountService : IBankAccountService
     {
-        public readonly BankAccount _account;
+        private readonly BankAccount _account;
 
         public BankAccountService(BankAccount account)
         {
@@ -25,10 +25,10 @@ namespace BankSystem.Services
         public ServiceResult Withdraw(decimal amount)
         {
             if (amount <= 0)
-                return ServiceResult.Fail("Invalid amount. Deposit must be greater than 0.");
+                return ServiceResult.Fail("Invalid amount. Withdrawal must be greater than 0.");
 
             if (!_account.CanWithdraw(amount))
-                return ServiceResult.Fail("Invalid withdrawal amount.");
+                return ServiceResult.Fail(message: _account.GetWithdrawErrorMessage());
 
             _account.Balance -= amount;
             _account.UpdatedDate = DateTime.Now;

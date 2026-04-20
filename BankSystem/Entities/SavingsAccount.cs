@@ -8,5 +8,9 @@
         {
             return Balance - amount >= _minimumBalance;
         }
+        public override string GetWithdrawErrorMessage()
+        {
+            return $"Balance cannot go below ₱{_minimumBalance}";
+        }
     }
 }

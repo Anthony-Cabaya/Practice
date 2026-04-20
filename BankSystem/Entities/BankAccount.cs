@@ -10,5 +10,9 @@
         {
             return Balance - amount >= 0;
         }
+        public virtual string GetWithdrawErrorMessage()
+        {
+            return "Insufficient balance.";
+        }
     }
 }
