@@ -21,5 +21,7 @@
         {
             return "Insufficient balance.";
         }
+
+        public int Id { get; set; }
     }
 }

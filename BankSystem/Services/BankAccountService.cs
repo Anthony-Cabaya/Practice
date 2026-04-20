@@ -1,43 +1,64 @@
 ﻿using BankSystem.Entities;
+using BankSystem.Repositories;
 
 namespace BankSystem.Services
 {
     public class BankAccountService : IBankAccountService
     {
-        private readonly BankAccount _account;
+        private readonly IAccountRepository _repository;
 
-        public BankAccountService(BankAccount account)
+        public BankAccountService(IAccountRepository repository)
         {
-            _account = account;
+            _repository = repository;
         }
 
-        public ServiceResult Deposit(decimal amount)
+        public ServiceResult Deposit(int id, decimal amount)
         {
+            var account = _repository.GetById(id);
+
+            if (account == null)
+                return ServiceResult.Fail("Account not found.");
+
             if (amount <= 0)
                 return ServiceResult.Fail("Invalid amount. Deposit must be greater than 0.");
 
-            _account.Balance += amount;
-            _account.UpdatedDate = DateTime.Now;
+            account.Balance += amount;
+            account.UpdatedDate = DateTime.Now;
 
-            return ServiceResult.Ok($"Successfully deposited: {amount.ToString("F2")}");
+            return ServiceResult.Ok($"Successfully deposited: {amount:F2}", account.Balance);
         }
 
-        public ServiceResult Withdraw(decimal amount)
+        public ServiceResult Withdraw(int id, decimal amount)
         {
+            var account = _repository.GetById(id);
+
+            if (account == null)
+                return ServiceResult.Fail("Account not found.");
+
             if (amount <= 0)
                 return ServiceResult.Fail("Invalid amount. Withdrawal must be greater than 0.");
 
-            if (!_account.CanWithdraw(amount))
-                return ServiceResult.Fail(message: _account.GetWithdrawErrorMessage());
+            if (!account.CanWithdraw(amount))
+                return ServiceResult.Fail(account.GetWithdrawErrorMessage());
 
-            _account.Balance -= amount;
-            _account.UpdatedDate = DateTime.Now;
-            return ServiceResult.Ok($"Successfully Withdraw: {amount.ToString("F2")}");
+            account.Balance -= amount;
+            account.UpdatedDate = DateTime.Now;
+            return ServiceResult.Ok($"Successfully withdrew: {amount:F2}", account.Balance);
         }
 
-        public decimal ViewBalance()
+        public ServiceResult ViewBalance(int id)
         {
-            return _account.Balance;
+            var account = _repository.GetById(id);
+
+            if (account == null)
+                return ServiceResult.Fail("Account not found.");
+
+            return ServiceResult.Ok("Balance retrieved.", account.Balance);
+        }
+
+        public BankAccount CreateAccount(BankAccount account)
+        {
+            return _repository.Add(account);
         }
     }
 }
