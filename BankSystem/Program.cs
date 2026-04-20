@@ -16,7 +16,10 @@ class Program
             Console.Write("Enter account holder name: ");
             name = Console.ReadLine() ?? "";
 
-            if (!string.IsNullOrWhiteSpace(name))
+            if (!string.IsNullOrWhiteSpace(name) && name.Any(char.IsLetter))
+                break;
+
+            if (!string.IsNullOrEmpty(name))
                 break;
 
             Console.WriteLine("Name cannot be empty.");
