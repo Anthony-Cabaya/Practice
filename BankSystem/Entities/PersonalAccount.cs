@@ -10,7 +10,7 @@
         }
         public override string GetWithdrawErrorMessage()
         {
-            return $"Balance cannot go below ₱{_overdraftLimit}";
+            return $"Balance cannot go below {_overdraftLimit}";
         }
     }
 }

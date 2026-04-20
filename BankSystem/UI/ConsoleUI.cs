@@ -49,7 +49,7 @@ namespace BankSystem.UI
                 }
                 else if (choice == "3")
                 {
-                    Console.WriteLine($"Balance: ₱{_service.ViewBalance():F2}");
+                    Console.WriteLine($"Balance: {_service.ViewBalance():F2}");
                 }
                 else if (choice == "4")
                 {

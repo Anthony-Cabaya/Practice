@@ -28,9 +28,9 @@ class Program
         while (account == null)
         {
             Console.WriteLine("\nSelect account type:");
-            Console.WriteLine("1. Savings Account");
-            Console.WriteLine("2. Debit Account");
-            Console.WriteLine("3. Personal Account");
+            Console.WriteLine("1. Savings Account    (Minimum balance: 500)");
+            Console.WriteLine("2. Debit Account      (Cannot go below 0)");
+            Console.WriteLine("3. Personal Account   (Overdraft limit: 1,000)");
             Console.Write("Choice: ");
 
             string choice = Console.ReadLine() ?? "";
@@ -54,9 +54,6 @@ class Program
                     break;
             }
         }
-
-        account.CreatedDate = DateTime.Now;
-        account.UpdatedDate = DateTime.Now;
 
         IBankAccountService service = new BankAccountService(account);
         ConsoleUI ui = new ConsoleUI(service);

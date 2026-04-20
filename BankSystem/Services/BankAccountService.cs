@@ -19,7 +19,7 @@ namespace BankSystem.Services
             _account.Balance += amount;
             _account.UpdatedDate = DateTime.Now;
 
-            return ServiceResult.Ok($"Successfully deposited: ₱{amount.ToString("F2")}");
+            return ServiceResult.Ok($"Successfully deposited: {amount.ToString("F2")}");
         }
 
         public ServiceResult Withdraw(decimal amount)
@@ -32,7 +32,7 @@ namespace BankSystem.Services
 
             _account.Balance -= amount;
             _account.UpdatedDate = DateTime.Now;
-            return ServiceResult.Ok($"Successfully Withdraw: ₱{amount.ToString("F2")}");
+            return ServiceResult.Ok($"Successfully Withdraw: {amount.ToString("F2")}");
         }
 
         public decimal ViewBalance()
