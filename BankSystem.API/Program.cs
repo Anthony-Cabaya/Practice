@@ -8,17 +8,27 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// register in services DI Container
-builder.Services.AddScoped<IAccountRepository, EfAccountRepository>();
-builder.Services.AddScoped<IBankAccountService, BankAccountService>();
-
+// DbContext
 builder.Services.AddDbContext<BankSystemDbContext>(options =>
     options.UseSqlServer(builder.Configuration
     .GetConnectionString("DefaultConnection")));
+
+// Repositories & Services (register in services DI Container)
+builder.Services.AddScoped<IAccountRepository, EfAccountRepository>();
+builder.Services.AddScoped<IBankAccountService, BankAccountService>();
+builder.Services.AddScoped<IUserRepository, EfUserRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
+// Read JWT settings
+var jwtKey = builder.Configuration["Jwt:Key"]!;
+var jwtIssuer = builder.Configuration["Jwt:Issuer"]!;
+var jwtAudience = builder.Configuration["Jwt:Audience"]!;
+
+// JWT helper service
+builder.Services.AddSingleton(new JwtTokenGenerator(jwtKey, jwtIssuer, jwtAudience));
 
 var app = builder.Build();
 
