@@ -1,12 +1,14 @@
 ﻿using BankSystem.DTOs;
 using BankSystem.Entities;
 using BankSystem.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankSystem.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class AccountsController : ControllerBase
     {
         private readonly IBankAccountService _service;
