@@ -1,5 +1,7 @@
+using BankSystem.Data;
 using BankSystem.Repositories;
 using BankSystem.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,10 @@ builder.Services.AddSwaggerGen();
 // register in services DI Container
 builder.Services.AddSingleton<IAccountRepository, InMemoryAccountRepository>();
 builder.Services.AddScoped<IBankAccountService, BankAccountService>();
+
+builder.Services.AddDbContext<BankSystemDbContext>(options =>
+    options.UseSqlServer(builder.Configuration
+    .GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
